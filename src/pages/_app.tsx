@@ -1,9 +1,10 @@
 import { AppProps } from 'next/app'
-import { Provider } from 'next-auth/client'
+import { SessionProvider } from 'next-auth/react'
+import { appWithTranslation } from 'next-i18next'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <Provider session={pageProps.session}>
+    <SessionProvider session={pageProps.session}>
       <div>
         <Component {...pageProps} />
       </div>
@@ -23,8 +24,8 @@ const App = ({ Component, pageProps }: AppProps) => {
           justify-content: center;
         }
       `}</style>
-    </Provider>
+    </SessionProvider>
   )
 }
 
-export default App
+export default appWithTranslation(App)
