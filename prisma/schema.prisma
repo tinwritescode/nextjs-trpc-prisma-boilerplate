@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -21,18 +21,18 @@ enum Role {
 }
 
 model Account {
-  id                       String   @id @default(cuid())
+  id                       String   @id @default(auto()) @map("_id") @db.ObjectId
   userId                   String
   type                     String
   provider                 String
   providerAccountId        String
-  refresh_token            String?  @db.Text
+  refresh_token            String?
   refresh_token_expires_in Int?
-  access_token             String?  @db.Text
+  access_token             String?  @db.String
   expires_at               Int?
   token_type               String?
   scope                    String?
-  id_token                 String?  @db.Text
+  id_token                 String?  @db.String
   session_state            String?
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
@@ -43,7 +43,7 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
   userId       String
   expires      DateTime
@@ -53,7 +53,7 @@ model Session {
 }
 
 model User {
-  id                   String         @id @default(uuid())
+  id                   String         @id @default(auto()) @map("_id") @db.ObjectId
   name                 String?
   email                String?        @unique
   emailVerified        DateTime?
@@ -73,7 +73,7 @@ model User {
 }
 
 model VerificationToken {
-  identifier String
+  identifier String   @id @default(auto()) @map("_id") @db.ObjectId
   token      String   @unique
   expires    DateTime
   createdAt  DateTime @default(now())
@@ -83,7 +83,7 @@ model VerificationToken {
 }
 
 model Seed {
-  id        String   @id @default(uuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   used      Boolean  @default(false)
@@ -98,7 +98,7 @@ enum SeedType {
 }
 
 model Plant {
-  id        String   @id @default(uuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   exp       BigInt   @default(0)
   userId    String
   long      Float
@@ -109,7 +109,7 @@ model Plant {
 }
 
 model Wallet {
-  id        String   @id @default(uuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -119,7 +119,7 @@ model Wallet {
 }
 
 model Notification {
-  id        String           @id @default(uuid())
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
   userId    String           @unique
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime         @default(now())
@@ -137,7 +137,7 @@ enum NotificationType {
 }
 
 model Log {
-  id        String   @id @default(uuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   message   String
@@ -155,7 +155,7 @@ enum LogType {
 }
 
 model MergeRequest {
-  id         String             @id @default(uuid())
+  id         String             @id @default(auto()) @map("_id") @db.ObjectId
   user       User               @relation(name: "Sender", fields: [userId], references: [id])
   receiver   User               @relation(name: "Receiver", fields: [receiverId], references: [id])
   userId     String
