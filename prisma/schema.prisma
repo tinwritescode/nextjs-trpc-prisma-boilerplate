@@ -53,23 +53,20 @@ model Session {
 }
 
 model User {
-  id                   String         @id @default(auto()) @map("_id") @db.ObjectId
-  name                 String?
-  email                String?        @unique
-  emailVerified        DateTime?
-  image                String?
-  accounts             Account[]
-  sessions             Session[]
-  role                 Role           @default(USER)
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
-  wallet               Wallet?
-  Seed                 Seed[]
-  Plant                Plant[]
-  Notification         Notification[]
-  Log                  Log[]
-  MergeRequestSent     MergeRequest[] @relation("Sender")
-  MergeRequestReceived MergeRequest[] @relation("Receiver")
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?        @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  role          Role           @default(USER)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  wallet        Wallet?
+  Notification  Notification[]
+  Log           Log[]
+  Inventory     Inventory?
 }
 
 model VerificationToken {
@@ -80,32 +77,6 @@ model VerificationToken {
   updatedAt  DateTime @updatedAt
 
   @@unique([identifier, token])
-}
-
-model Seed {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  used      Boolean  @default(false)
-  type      SeedType @default(PIECE_OF_SEED)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum SeedType {
-  PIECE_OF_SEED
-  PURE_SEED
-}
-
-model Plant {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  exp       BigInt   @default(0)
-  userId    String
-  long      Float
-  lat       Float
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Wallet {
@@ -154,20 +125,19 @@ enum LogType {
   HARVEST
 }
 
-model MergeRequest {
-  id         String             @id @default(auto()) @map("_id") @db.ObjectId
-  user       User               @relation(name: "Sender", fields: [userId], references: [id])
-  receiver   User               @relation(name: "Receiver", fields: [receiverId], references: [id])
-  userId     String
-  receiverId String
-  createdAt  DateTime           @default(now())
-  updatedAt  DateTime           @updatedAt
-  message    String
-  status     MergeRequestStatus @default(PENDING)
+enum InventoryType {
+  EGG
+  FOOD
+  WATER
+  MEDICINE
 }
 
-enum MergeRequestStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
+model Inventory {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String        @unique
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      InventoryType @default(EGG)
+  quantity  Int           @default(0)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }

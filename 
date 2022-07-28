@@ -1,7 +1,0 @@
-DATABASE_URL=mongodb+srv://tinisntreal:Aimabiet123!@#@cluster0.iukas.mongodb.net/?retryWrites=true&w=majority
-JWT_SECRET=youCat\'tSeeM3zz
-EMAIL_FROM=hopthucuatin@gmail.com
-EMAIL_SERVER=smtp://hopthucuatin@gmail.com:txquepwhdmondiab@smtp.gmail.com:587
-GITHUB_ID=Iv1.336fd1d5c73cb321
-GITHUB_SECRET=781d32344f453888b75c60bf273b7fdde8ee8c2b
-NEXTAUTH_URL=https://localhost/api/auth
