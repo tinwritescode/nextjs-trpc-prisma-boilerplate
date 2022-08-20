@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,26 +16,25 @@ generator nexusPrisma {
 
 enum Role {
   USER
+  CLIENT
+  EMPLOYEE
   ADMIN
   SUPERADMIN
 }
 
 model Account {
-  id                       String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId                   String
-  type                     String
-  provider                 String
-  providerAccountId        String
-  refresh_token            String?
-  refresh_token_expires_in Int?
-  access_token             String?  @db.String
-  expires_at               Int?
-  token_type               String?
-  scope                    String?
-  id_token                 String?  @db.String
-  session_state            String?
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @updatedAt
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -43,34 +42,33 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
 }
 
 model User {
-  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  id            String          @id @default(cuid()) @map("_id")
   name          String?
-  email         String?        @unique
+  email         String?         @unique
   emailVerified DateTime?
   image         String?
+  role          Role            @default(USER)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  wallets       Wallet[]
+  notifications Notification[]
   accounts      Account[]
   sessions      Session[]
-  role          Role           @default(USER)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  wallet        Wallet?
-  Notification  Notification[]
-  Log           Log[]
-  Inventory     Inventory?
+  logs          Log[]
+  taskUser      TaskUser[]
+  rewardHistory RewardHistory[]
 }
 
 model VerificationToken {
-  identifier String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
   token      String   @unique
   expires    DateTime
   createdAt  DateTime @default(now())
@@ -80,7 +78,7 @@ model VerificationToken {
 }
 
 model Wallet {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(cuid()) @map("_id")
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -90,7 +88,7 @@ model Wallet {
 }
 
 model Notification {
-  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  id        String           @id @default(cuid()) @map("_id")
   userId    String           @unique
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime         @default(now())
@@ -101,14 +99,11 @@ model Notification {
 
 enum NotificationType {
   UNKNOWN
-  MERGE_PROPOSAL
-  MERGE_ACCEPTED
-  MERGE_REJECTED
-  HARVEST
+  TIMEOUT_TASK
 }
 
 model Log {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(cuid()) @map("_id")
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   message   String
@@ -119,25 +114,99 @@ model Log {
 
 enum LogType {
   UNKNOWN
-  MERGE_PROPOSAL
-  MERGE_ACCEPTED
-  MERGE_REJECTED
-  HARVEST
+  SHOP_BUY
 }
 
-enum InventoryType {
-  EGG
+enum TaskType {
+  UNKNOWN
+  CHECK_IN
+  APP_INSTALL
+}
+
+model Task {
+  id        String     @id @default(cuid()) @map("_id")
+  name      String     @unique
+  owner     String     @unique
+  type      TaskType   @default(UNKNOWN)
+  cover     String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  gallery   Gallery[]
+  locations Location[]
+  taskusers TaskUser[]
+  campaigns Campaign[]
+
+  @@unique([name, owner])
+}
+
+model Campaign {
+  id        String   @id @default(cuid()) @map("_id")
+  name      String   @unique
+  owner     String   @unique
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  taskId    String   @unique
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+}
+
+model Gallery {
+  id        String   @id @default(cuid()) @map("_id")
+  taskId    String   @unique
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  image     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Location {
+  id        String   @id @default(cuid()) @map("_id")
+  taskId    String   @unique
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  latitude  Float
+  longitude Float
+  radius    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TaskUser {
+  id        String   @id @default(cuid()) @map("_id")
+  taskId    String   @unique
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([taskId, userId])
+}
+
+enum RewardType {
+  UNKNOWN
   FOOD
   WATER
   MEDICINE
+  HIDDEN_BOX
 }
 
-model Inventory {
-  id        String        @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String        @unique
-  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type      InventoryType @default(EGG)
-  quantity  Int           @default(0)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+model Reward {
+  id              String          @id @default(cuid()) @map("_id")
+  type            RewardType      @default(UNKNOWN)
+  name            String          @unique
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  RewardHistory   RewardHistory[]
+  rewardHistoryId String?
+}
+
+model RewardHistory {
+  id        String   @id @default(cuid()) @map("_id")
+  userId    String
+  rewardId  String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Reward    Reward   @relation(fields: [rewardId], references: [id])
+  User      User     @relation(fields: [userId], references: [id])
 }
