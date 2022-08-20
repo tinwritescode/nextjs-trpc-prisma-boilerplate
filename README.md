@@ -56,6 +56,8 @@ For deployment, you can use [Vercel](https://vercel.com/), this boilerplate work
 
 ## Setup
 
+Use `yarn --ignore-engines` to install packages if there is warning from next-auth
+
 ### Connect your database
 
 You can follow [Prisma getting started](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch-typescript-postgres#connect-your-database), which requires to have running PostgreSQL database running. If you don't want to use a local docker setup, I suggest using [Railway.app](https://railway.app/), which has a nice generous free plan for PostgreSQL databases.

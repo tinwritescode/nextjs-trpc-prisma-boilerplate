@@ -2,11 +2,9 @@ import { LogType } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getToken, JWT } from 'next-auth/jwt'
 import { getSession } from 'next-auth/react'
-import { prisma } from '../pages/api/auth/[...nextauth]'
+import { prisma, SECRET } from '../pages/api/auth/[...nextauth]'
 import { apiConstant } from './apiConstant'
 import { Session } from 'next-auth'
-
-export const SECRET = process.env.JWT_SECRET || 'Ch@ng3M3S3cr3t'
 
 export class APIError extends Error {
   constructor(message: string, public statusCode: number) {

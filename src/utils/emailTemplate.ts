@@ -1,5 +1,6 @@
 import { EmailConfig } from 'next-auth/providers'
 import nodemailer from 'nodemailer'
+import Config from '../constants'
 
 export { sendVerificationRequest }
 
@@ -20,7 +21,7 @@ async function sendVerificationRequest({
   await transport.sendMail({
     to: email,
     from,
-    subject: `[O2 Meta Earth] Login Attempted`,
+    subject: `[${Config.PROJECT_NAME}] Login Attempted`,
     text: text({ url, host }),
     html: html({ url, host, email, token }),
   })

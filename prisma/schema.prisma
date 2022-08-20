@@ -50,21 +50,19 @@ model Session {
 }
 
 model User {
-  id            String          @id @default(cuid()) @map("_id")
+  id            String         @id @default(cuid()) @map("_id")
   name          String?
-  email         String?         @unique
+  email         String?        @unique
   emailVerified DateTime?
   image         String?
-  role          Role            @default(USER)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  role          Role           @default(USER)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
   wallets       Wallet[]
   notifications Notification[]
   accounts      Account[]
   sessions      Session[]
   logs          Log[]
-  taskUser      TaskUser[]
-  rewardHistory RewardHistory[]
 }
 
 model VerificationToken {
@@ -115,98 +113,4 @@ model Log {
 enum LogType {
   UNKNOWN
   SHOP_BUY
-}
-
-enum TaskType {
-  UNKNOWN
-  CHECK_IN
-  APP_INSTALL
-}
-
-model Task {
-  id        String     @id @default(cuid()) @map("_id")
-  name      String     @unique
-  owner     String     @unique
-  type      TaskType   @default(UNKNOWN)
-  cover     String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  gallery   Gallery[]
-  locations Location[]
-  taskusers TaskUser[]
-  campaigns Campaign[]
-
-  @@unique([name, owner])
-}
-
-model Campaign {
-  id        String   @id @default(cuid()) @map("_id")
-  name      String   @unique
-  owner     String   @unique
-  endDate   DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  taskId    String   @unique
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-}
-
-model Gallery {
-  id        String   @id @default(cuid()) @map("_id")
-  taskId    String   @unique
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  image     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Location {
-  id        String   @id @default(cuid()) @map("_id")
-  taskId    String   @unique
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  latitude  Float
-  longitude Float
-  radius    Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model TaskUser {
-  id        String   @id @default(cuid()) @map("_id")
-  taskId    String   @unique
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([taskId, userId])
-}
-
-enum RewardType {
-  UNKNOWN
-  FOOD
-  WATER
-  MEDICINE
-  HIDDEN_BOX
-}
-
-model Reward {
-  id              String          @id @default(cuid()) @map("_id")
-  type            RewardType      @default(UNKNOWN)
-  name            String          @unique
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  RewardHistory   RewardHistory[]
-  rewardHistoryId String?
-}
-
-model RewardHistory {
-  id        String   @id @default(cuid()) @map("_id")
-  userId    String
-  rewardId  String
-  quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Reward    Reward   @relation(fields: [rewardId], references: [id])
-  User      User     @relation(fields: [userId], references: [id])
 }
