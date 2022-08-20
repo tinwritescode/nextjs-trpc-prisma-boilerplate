@@ -20,7 +20,6 @@
       "~/*": ["src/*"]
     }
   },
-  "files": ["node_modules/@types/.nexus/index.d.ts"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

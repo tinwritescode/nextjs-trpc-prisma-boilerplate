@@ -1,9 +1,9 @@
 /**
  * This file contains the root router of your tRPC-backend
  */
-import { createRouter } from '../createRouter';
-import { postRouter } from './post';
-import superjson from 'superjson';
+import { createRouter } from '../createRouter'
+import superjson from 'superjson'
+import { thegioimoiRouter } from './1thegioimoi'
 
 /**
  * Create your application's root router
@@ -23,16 +23,8 @@ export const appRouter = createRouter()
    */
   // .formatError(({ shape, error }) => { })
   /**
-   * Add a health check endpoint to be called with `/api/trpc/healthz`
-   */
-  .query('healthz', {
-    async resolve() {
-      return 'yay!';
-    },
-  })
-  /**
    * Merge `postRouter` under `post.`
    */
-  .merge('post.', postRouter);
+  .merge('motthegioimoi.', thegioimoiRouter)
 
-export type AppRouter = typeof appRouter;
+export type AppRouter = typeof appRouter

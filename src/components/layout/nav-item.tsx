@@ -9,9 +9,16 @@ export type NavItemProps = {
   active?: boolean
   href?: string
   leftIcon?: IconType
+  onClick?: () => void
 }
 
-function NavItem({ href, title, active = false, leftIcon }: NavItemProps) {
+function NavItem({
+  onClick,
+  href,
+  title,
+  active = false,
+  leftIcon,
+}: NavItemProps) {
   const activeBg = 'bg-slate-100'
 
   const LeftIcon = leftIcon ? leftIcon : null
@@ -22,10 +29,10 @@ function NavItem({ href, title, active = false, leftIcon }: NavItemProps) {
         [activeBg]: active,
       })}
     >
-      <Link href={href || '/'}>
-        <a className="block p-4">
+      <Link href={(!onClick && href) || '#'}>
+        <a className="block p-4" onClick={onClick}>
           {LeftIcon && (
-            <LeftIcon size="1rem" className="inline-block mb-1 mr-1" />
+            <LeftIcon size="1rem" className="inline-block mb-1 mr-2" />
           )}
           {title}
         </a>

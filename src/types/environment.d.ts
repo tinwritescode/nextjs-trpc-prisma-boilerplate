@@ -12,6 +12,8 @@ declare global {
       NEXTAUTH_URL: string
       NO_PEER_DEPENDENCY_CHECK: 'true' | '1' | 'false' | '0'
       PEER_DEPENDENCY_CHECK: 'true' | '1' | 'false' | '0'
+      FACEBOOK_ID: string
+      FACEBOOK_SECRET: string
     }
   }
 }

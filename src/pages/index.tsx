@@ -8,9 +8,11 @@ const Index = () => {
   const { data: session, status } = useSession()
   const loading = status === 'loading'
   const { bears, addBear, clearBear } = useBearStore()
-  const hello = trpc.useQuery(['healthz'])
+  const hello = trpc.useQuery(['motthegioimoi.byCategory', { page: 1 }], {
+    onSuccess: (data) => console.log(data),
+  })
 
-  if (!hello.data || loading) {
+  if (!hello.data) {
     return <div>Loading</div>
   }
 
@@ -26,15 +28,16 @@ const Index = () => {
         ))}
       </div>
 
-      <div className="">{JSON.stringify(hello.data)}</div>
-
       {!session ? (
         <>
           <h2>Not signed in</h2>
           <button onClick={() => signIn()}>Sign in</button>
         </>
       ) : (
-        <div className="">Signed in</div>
+        <div className="">
+          Signed in
+          {JSON.stringify(session.user)}
+        </div>
       )}
     </>
   )

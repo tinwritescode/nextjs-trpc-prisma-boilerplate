@@ -28,5 +28,4 @@ module.exports = getConfig({
   images: {
     domains: ['avatars.githubusercontent.com'],
   },
-  i18n,
 })

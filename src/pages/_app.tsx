@@ -5,7 +5,8 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { Layout } from '../components'
 import '../styles/global.css'
 import { withTRPC } from '@trpc/next'
-import { AppRouter } from './api/trpc/[trpc]'
+import { AppRouter } from '~/server/routers/_app'
+import superjson from 'superjson'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -46,6 +47,7 @@ export default withTRPC<AppRouter>({
      * @link https://trpc.io/docs/ssr
      */
     return {
+      transformer: superjson,
       url: `${getBaseUrl()}/api/trpc`,
       /**
        * @link https://react-query-v3.tanstack.com/reference/QueryClient

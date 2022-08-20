@@ -2,6 +2,7 @@ import { NextApiHandler } from 'next'
 import NextAuth, { NextAuthOptions, SessionStrategy } from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import EmailProvider from 'next-auth/providers/email'
+import FacebookProvider from 'next-auth/providers/facebook'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient, User, Role } from '@prisma/client'
 import { sendVerificationRequest } from '../../../utils/emailTemplate'
@@ -26,6 +27,10 @@ export const nextAuthOptions: NextAuthOptions = {
           .padStart(6, '0')
       },
       sendVerificationRequest,
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
     }),
   ],
   secret: process.env.JWT_SECRET as string,
