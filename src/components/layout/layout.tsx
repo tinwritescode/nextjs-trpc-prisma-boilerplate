@@ -22,6 +22,7 @@ import {
   CgFacebook,
   CgGoogleTasks,
   CgHome,
+  CgImage,
   CgLogIn,
   CgPokemon,
   CgSearch,
@@ -44,6 +45,11 @@ const NAVIGATION: NavItemProps[] = [
     title: 'Tasks',
     href: '/tasks',
     leftIcon: CgGoogleTasks,
+  },
+  {
+    title: '1TheGioiMoi',
+    href: '/1thegioimoi',
+    leftIcon: CgImage,
   },
   {
     title: 'Admin Panel',
