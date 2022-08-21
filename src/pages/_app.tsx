@@ -22,7 +22,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 // export default appWithTranslation(App)
 
-function getBaseUrl() {
+export function getBaseUrl() {
   if (typeof window !== 'undefined') {
     return ''
   }

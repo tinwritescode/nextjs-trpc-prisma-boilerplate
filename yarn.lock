@@ -6198,6 +6198,11 @@
     "use-callback-ref" "^1.3.0"
     "use-sidecar" "^1.1.2"
 
+"react-responsive-masonry@^2.1.5":
+  "integrity" "sha512-qXoE8Whrgw2smNRKAcX2z+kZDH7uiii1uyJ92cMOpe59CGdMbj7qbT9I9540GKxFLVUYr9zlU4n4lCfsfy+09A=="
+  "resolved" "https://registry.npmjs.org/react-responsive-masonry/-/react-responsive-masonry-2.1.5.tgz"
+  "version" "2.1.5"
+
 "react-spinner-children@^1.0.8":
   "integrity" "sha512-JNo7Jvs6aZLwhzxEshmTc67RuLMNVbrdZ326fzW3LjeU6wT2Npucm0DHRp9k3Xr2415AZxlHI1LtP4k7uXEbxA=="
   "resolved" "https://registry.npmjs.org/react-spinner-children/-/react-spinner-children-1.0.8.tgz"

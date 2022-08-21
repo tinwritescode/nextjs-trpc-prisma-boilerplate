@@ -26,6 +26,6 @@ module.exports = getConfig({
     NODE_ENV: env.NODE_ENV,
   },
   images: {
-    domains: ['avatars.githubusercontent.com'],
+    domains: ['avatars.githubusercontent.com', '1thegioimoi.com'],
   },
 })

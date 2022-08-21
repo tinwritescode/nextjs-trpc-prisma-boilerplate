@@ -6,10 +6,9 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient, User, Role } from '@prisma/client'
 import { sendVerificationRequest } from '../../../utils/emailTemplate'
+import { prisma } from '~/server/prisma'
 
 export const SECRET = process.env.JWT_SECRET || 'Ch@ng3M3S3cr3t'
-
-const prisma = new PrismaClient()
 
 export const nextAuthOptions: NextAuthOptions = {
   providers: [
@@ -63,4 +62,3 @@ export const nextAuthOptions: NextAuthOptions = {
 const auth: NextApiHandler = (req, res) => NextAuth(req, res, nextAuthOptions)
 
 export default auth
-export { prisma }
