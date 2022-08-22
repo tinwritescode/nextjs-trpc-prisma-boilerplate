@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -26,11 +27,14 @@ import {
   CgLogIn,
   CgPokemon,
   CgSearch,
+  CgToggleOff,
+  CgToggleOn,
 } from 'react-icons/cg'
 import NavItem, { NavItemProps } from './nav-item'
 import { useSession } from 'next-auth/react'
 import { signIn, signOut } from 'next-auth/react'
 import { Spinner } from '../spinner'
+import classNames from 'classnames'
 
 type Props = { children: React.ReactNode }
 
@@ -129,13 +133,31 @@ function Layout({ children }: Props) {
     navigation: { search },
   } = useTrans()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const navbar = useDisclosure()
   const { data: session, status } = useSession()
 
   return (
     <div>
       <div className="h-[calc(100vh)] ">
+        <div className="absolute top-4 left-4 z-50 block md:hidden">
+          <IconButton
+            colorScheme="blackAlpha"
+            aria-label="toggle navbar"
+            onClick={() => {
+              alert('ok')
+              navbar.onToggle()
+            }}
+            icon={navbar.isOpen ? <CgToggleOff /> : <CgToggleOn />}
+          />
+        </div>
+
         {/* Medium device navigation */}
-        <div className="absolute inset-y-0 px-2 transition shadow-md w-60 -translate-x-60 md:translate-x-0">
+        <div
+          className={classNames(
+            'absolute inset-y-0 px-2 transition shadow-md w-60 -translate-x-60 md:translate-x-0',
+            { 'translate-x-0': navbar.isOpen }
+          )}
+        >
           {/* Navigation */}
           <nav className="absolute inset-0 flex flex-col justify-between px-2 mt-4">
             {/* Heading */}
@@ -164,7 +186,14 @@ function Layout({ children }: Props) {
           </nav>
         </div>
 
-        <div className="absolute inset-y-0 left-0 right-0 ml-2 overflow-y-scroll transition md:left-60">
+        <div
+          className={classNames(
+            'absolute inset-y-0 left-0 right-0 ml-2 overflow-y-scroll transition md:left-60 mt-4 md:mt-0',
+            {
+              'translate-x-60': navbar.isOpen,
+            }
+          )}
+        >
           <Header />
           {children}
         </div>
