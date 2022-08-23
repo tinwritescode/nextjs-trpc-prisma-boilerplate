@@ -17,7 +17,7 @@ const Index = () => {
   const { data: session, status } = useSession()
   const [page, setPage] = React.useState(1)
   const fetchPostList = trpc.useQuery(
-    ['motthegioimoi.byCategory', { page, withImage: true,limit:2 }],
+    ['motthegioimoi.byCategory', { page, withImage: true,limit:10 }],
     {
       onSuccess: (data) => console.log(data),
       staleTime: 60 * 1000 * 30,

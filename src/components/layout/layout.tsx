@@ -35,13 +35,14 @@ import { useSession } from 'next-auth/react'
 import { signIn, signOut } from 'next-auth/react'
 import { Spinner } from '../spinner'
 import classNames from 'classnames'
+import { router } from '@trpc/server'
+import { useRouter } from 'next/router'
 
 type Props = { children: React.ReactNode }
 
 const NAVIGATION: NavItemProps[] = [
   {
     title: 'Home',
-    active: true,
     href: '/',
     leftIcon: CgHome,
   },
@@ -134,11 +135,12 @@ function Layout({ children }: Props) {
   } = useTrans()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navbar = useDisclosure()
-  const { data: session, status } = useSession()
+  const router = useRouter()
+  const { route } = router
 
   return (
     <div>
-      <div className="h-[calc(100vh)] ">
+      <div className="h-[calc(100vh)] overflow-hidden w-full relative">
         <div className="absolute top-4 left-4 z-50 block md:hidden">
           <IconButton
             colorScheme="blackAlpha"
@@ -175,7 +177,11 @@ function Layout({ children }: Props) {
 
             <ul>
               {NAVIGATION.map((nav, index) => (
-                <NavItem key={index} {...nav} />
+                <NavItem
+                  active={nav.href?.endsWith(route)}
+                  key={index}
+                  {...nav}
+                />
               ))}
             </ul>
 
