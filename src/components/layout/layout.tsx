@@ -146,7 +146,6 @@ function Layout({ children }: Props) {
             colorScheme="blackAlpha"
             aria-label="toggle navbar"
             onClick={() => {
-              alert('ok')
               navbar.onToggle()
             }}
             icon={navbar.isOpen ? <CgToggleOff /> : <CgToggleOn />}
