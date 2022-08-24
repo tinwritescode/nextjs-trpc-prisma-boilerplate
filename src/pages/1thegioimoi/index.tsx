@@ -17,7 +17,7 @@ const Index = () => {
   const { data: session, status } = useSession()
   const [page, setPage] = React.useState(1)
   const fetchPostList = trpc.useQuery(
-    ['motthegioimoi.byCategory', { page, withImage: true }],
+    ['motthegioimoi.byCategory', { page, withImage: true,limit:10 }],
     {
       onSuccess: (data) => console.log(data),
       staleTime: 60 * 1000 * 30,
@@ -61,15 +61,6 @@ const Index = () => {
         Fetch next page
       </Button>
       {/* {JSON.stringify(images.data)} */}
-
-      {!session ? (
-        <>
-          <h2>Not signed in</h2>
-          <button onClick={() => signIn()}>Sign in</button>
-        </>
-      ) : (
-        <></>
-      )}
     </>
   )
 }

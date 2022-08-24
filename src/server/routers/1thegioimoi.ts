@@ -45,8 +45,9 @@ export const thegioimoiRouter = createRouter()
       category: z.string().default('girl-xinh-mto'),
       page: z.number().default(1),
       withImage: z.boolean().default(false),
+      limit: z.number().default(5)
     }),
-    async resolve({ ctx, input: { page, category, withImage } }) {
+    async resolve({ ctx, input: { page, limit, category, withImage } }) {
       /**
        * For pagination you can have a look at this docs site
        * @link https://trpc.io/docs/useInfiniteQuery
@@ -73,6 +74,7 @@ export const thegioimoiRouter = createRouter()
                   return $(el).attr('href')
                 })
                 .get()
+                .splice(0, limit)
                 .filter((val) => !val.includes('/author/'))
                 // remove duplicates
                 .filter((val, i, arr) => arr.indexOf(val) === i)

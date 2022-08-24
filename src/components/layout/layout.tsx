@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -26,19 +27,23 @@ import {
   CgLogIn,
   CgPokemon,
   CgSearch,
+  CgToggleOff,
+  CgToggleOn,
   CgUser,
 } from 'react-icons/cg'
 import NavItem, { NavItemProps } from './nav-item'
 import { useSession } from 'next-auth/react'
 import { signIn, signOut } from 'next-auth/react'
 import { Spinner } from '../spinner'
+import classNames from 'classnames'
+import { router } from '@trpc/server'
+import { useRouter } from 'next/router'
 
 type Props = { children: React.ReactNode }
 
 const NAVIGATION: NavItemProps[] = [
   {
     title: 'Home',
-    active: true,
     href: '/',
     leftIcon: CgHome,
   },
@@ -135,13 +140,31 @@ function Layout({ children }: Props) {
     navigation: { search },
   } = useTrans()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { data: session, status } = useSession()
+  const navbar = useDisclosure()
+  const router = useRouter()
+  const { route } = router
 
   return (
     <div>
-      <div className="h-[calc(100vh)] ">
+      <div className="h-[calc(100vh)] overflow-hidden w-full relative">
+        <div className="absolute z-50 block top-4 left-4 md:hidden">
+          <IconButton
+            colorScheme="blackAlpha"
+            aria-label="toggle navbar"
+            onClick={() => {
+              navbar.onToggle()
+            }}
+            icon={navbar.isOpen ? <CgToggleOff /> : <CgToggleOn />}
+          />
+        </div>
+
         {/* Medium device navigation */}
-        <div className="absolute inset-y-0 px-2 transition bg-white shadow-md w-60 -translate-x-60 md:translate-x-0">
+        <div
+          className={classNames(
+            'absolute inset-y-0 px-2 transition shadow-md w-60 -translate-x-60 md:translate-x-0 bg-white',
+            { 'translate-x-0': navbar.isOpen }
+          )}
+        >
           {/* Navigation */}
           <nav className="absolute inset-0 flex flex-col justify-between px-2 mt-4 ">
             {/* Heading */}
@@ -159,7 +182,11 @@ function Layout({ children }: Props) {
 
             <ul>
               {NAVIGATION.map((nav, index) => (
-                <NavItem key={index} {...nav} />
+                <NavItem
+                  active={nav.href?.endsWith(route)}
+                  key={index}
+                  {...nav}
+                />
               ))}
             </ul>
 
@@ -170,7 +197,14 @@ function Layout({ children }: Props) {
           </nav>
         </div>
 
-        <div className="absolute inset-y-0 left-0 right-0 ml-2 overflow-y-scroll transition md:left-60">
+        <div
+          className={classNames(
+            'absolute inset-y-0 left-0 right-0 ml-2 overflow-y-scroll transition md:left-60 mt-4 md:mt-0',
+            {
+              'translate-x-60': navbar.isOpen,
+            }
+          )}
+        >
           <Header />
           {children}
         </div>

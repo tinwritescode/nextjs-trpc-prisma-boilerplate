@@ -15,5 +15,7 @@
         "cmd": "yarn generate:hooks"
       }
     ]
-  }
+  },
+  "editor.tabCompletion": "on",
+  "diffEditor.codeLens": true
 }
