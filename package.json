@@ -1,6 +1,6 @@
 {
-  "name": "next-auth-prisma-template",
-  "version": "0.0.1",
+  "name": "next-laputa",
+  "version": "1.0.0",
   "license": "MIT",
   "author": {
     "name": "Tin Nguyen",

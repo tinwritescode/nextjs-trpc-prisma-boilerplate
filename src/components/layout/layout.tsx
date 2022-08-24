@@ -26,6 +26,7 @@ import {
   CgLogIn,
   CgPokemon,
   CgSearch,
+  CgUser,
 } from 'react-icons/cg'
 import NavItem, { NavItemProps } from './nav-item'
 import { useSession } from 'next-auth/react'
@@ -55,6 +56,11 @@ const NAVIGATION: NavItemProps[] = [
     title: 'Admin Panel',
     href: '/admin',
     leftIcon: CgPokemon,
+  },
+  {
+    title: 'User',
+    href: '/users',
+    leftIcon: CgUser,
   },
 ]
 
@@ -135,11 +141,11 @@ function Layout({ children }: Props) {
     <div>
       <div className="h-[calc(100vh)] ">
         {/* Medium device navigation */}
-        <div className="absolute inset-y-0 px-2 transition shadow-md w-60 -translate-x-60 md:translate-x-0">
+        <div className="absolute inset-y-0 px-2 transition bg-white shadow-md w-60 -translate-x-60 md:translate-x-0">
           {/* Navigation */}
-          <nav className="absolute inset-0 flex flex-col justify-between px-2 mt-4">
+          <nav className="absolute inset-0 flex flex-col justify-between px-2 mt-4 ">
             {/* Heading */}
-            <Text fontSize="2xl" className="mb-4">
+            <Text fontSize="2xl" className="mb-4 font-bold">
               Laputa
             </Text>
 

@@ -5,6 +5,7 @@ import { CgShoppingCart } from 'react-icons/cg'
 import useHydrated from '~/hooks/useHydrated'
 import { useCartStore } from '~/models/cart-store'
 import { Spinner } from '../spinner'
+import Cloud from './cloud'
 
 type Props = {}
 
@@ -18,6 +19,7 @@ function Header({}: Props) {
 
   return (
     <header>
+      <Cloud />
       <div className="flex justify-end">
         <Button
           className={classNames(['px-4 mr-4 mt-2 py-2 bg-rose-300'])}
