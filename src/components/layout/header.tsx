@@ -1,9 +1,10 @@
 import { Button } from '@chakra-ui/react'
 import classNames from 'classnames'
-import React from 'react'
 import { CgShoppingCart } from 'react-icons/cg'
+import { GrConnect } from 'react-icons/gr'
 import useHydrated from '~/hooks/useHydrated'
 import { useCartStore } from '~/models/cart-store'
+import { useEtherStore } from '~/models/web3-store'
 import { Spinner } from '../spinner'
 import Cloud from './cloud'
 
@@ -11,7 +12,8 @@ type Props = {}
 
 function Header({}: Props) {
   const hydrated = useHydrated()
-  const { addItem, clearItem, items } = useCartStore()
+  const { addItem, items } = useCartStore()
+  const { connectToMetaMask, address } = useEtherStore()
 
   if (!hydrated) {
     return <Spinner />
@@ -21,6 +23,13 @@ function Header({}: Props) {
     <header>
       <Cloud />
       <div className="flex justify-end">
+        <Button
+          className={classNames(['px-4 mr-4 mt-2 py-2 bg-rose-300'])}
+          onClick={connectToMetaMask}
+          leftIcon={<GrConnect />}
+        >
+          {address ? address : 'Connect to MetaMask'}
+        </Button>
         <Button
           className={classNames(['px-4 mr-4 mt-2 py-2 bg-rose-300'])}
           leftIcon={<CgShoppingCart />}

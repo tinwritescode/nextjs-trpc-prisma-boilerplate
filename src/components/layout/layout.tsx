@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   Button,
   IconButton,
   Input,
@@ -36,7 +35,6 @@ import { useSession } from 'next-auth/react'
 import { signIn, signOut } from 'next-auth/react'
 import { Spinner } from '../spinner'
 import classNames from 'classnames'
-import { router } from '@trpc/server'
 import { useRouter } from 'next/router'
 
 type Props = { children: React.ReactNode }
@@ -66,6 +64,11 @@ const NAVIGATION: NavItemProps[] = [
     title: 'User',
     href: '/users',
     leftIcon: CgUser,
+  },
+  {
+    title: 'Gallery',
+    href: '/gallery',
+    leftIcon: CgImage,
   },
 ]
 
@@ -168,7 +171,7 @@ function Layout({ children }: Props) {
           {/* Navigation */}
           <nav className="absolute inset-0 flex flex-col justify-between px-2 mt-4 ">
             {/* Heading */}
-            <Text fontSize="2xl" className="mb-4 font-bold">
+            <Text fontSize="xl" className="mb-4 ml-2">
               Laputa
             </Text>
 

@@ -3,11 +3,9 @@
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
 import { Prisma } from '@prisma/client'
-import { TRPCError } from '@trpc/server'
+import Crawler from 'crawler'
 import { z } from 'zod'
 import { createRouter } from '~/server/createRouter'
-import { prisma } from '~/server/prisma'
-import Crawler from 'crawler'
 
 const c = new Crawler({
   maxConnections: 40,
@@ -45,7 +43,7 @@ export const thegioimoiRouter = createRouter()
       category: z.string().default('girl-xinh-mto'),
       page: z.number().default(1),
       withImage: z.boolean().default(false),
-      limit: z.number().default(5)
+      limit: z.number().default(10),
     }),
     async resolve({ ctx, input: { page, limit, category, withImage } }) {
       /**
@@ -74,10 +72,11 @@ export const thegioimoiRouter = createRouter()
                   return $(el).attr('href')
                 })
                 .get()
-                .splice(0, limit)
+                // .splice(0, limit)
                 .filter((val) => !val.includes('/author/'))
                 // remove duplicates
                 .filter((val, i, arr) => arr.indexOf(val) === i)
+                .slice(0, limit)
 
               if (withImage) {
                 const imageList = await Promise.all(

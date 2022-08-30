@@ -1,24 +1,31 @@
 import { useSession } from 'next-auth/react'
 import React from 'react'
+import { Spinner } from '~/components/spinner'
 import { trpc } from '~/utils/trpc'
 
 type Props = {}
 
 function Index({}: Props) {
-  const { data, isLoading, isError } = trpc.useQuery(['user.getToken'])
-  const { data: session } = useSession()
+  const { data, isLoading, isError } = trpc.useQuery([
+    'user.getUser',
+    { id: 'cl71m0xtw0009qovwjx8neh8pss' },
+  ])
+  // const { data: session } = useSession()
 
-  if (isLoading || !session) {
-    return <div>Loading...</div>
+  if (isLoading) {
+    return (
+      <div>
+        <Spinner />
+      </div>
+    )
   }
   if (isError) {
-    return <div>Error</div>
+    return <div>Error...</div>
   }
 
   return (
     <div>
-      <div>{JSON.stringify(data)}</div>
-      <div className="">{JSON.stringify(session?.user.id)}</div>
+      <div>{data?.name}</div>
     </div>
   )
 }

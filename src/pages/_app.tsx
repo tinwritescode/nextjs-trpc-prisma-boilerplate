@@ -1,21 +1,26 @@
-import { AppProps } from 'next/app'
+import { ChakraProvider } from '@chakra-ui/react'
+import { withTRPC } from '@trpc/next'
 import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
-import { ChakraProvider } from '@chakra-ui/react'
+import { AppProps } from 'next/app'
+import superjson from 'superjson'
+import { EtherProvider } from '~/components/provider/etherProvider'
+import { AppRouter } from '~/server/routers/_app'
 import { Layout } from '../components'
 import '../styles/global.css'
-import { withTRPC } from '@trpc/next'
-import { AppRouter } from '~/server/routers/_app'
-import superjson from 'superjson'
+import { Toaster } from 'react-hot-toast'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <SessionProvider session={pageProps.session}>
       <ChakraProvider>
         <Layout>
-          <Component {...pageProps} />
+          <EtherProvider>
+            <Component {...pageProps} />
+          </EtherProvider>
         </Layout>
       </ChakraProvider>
+      <Toaster />
     </SessionProvider>
   )
 }
@@ -58,5 +63,5 @@ export default withTRPC<AppRouter>({
   /**
    * @link https://trpc.io/docs/ssr
    */
-  ssr: true,
+  ssr: false,
 })(appWithTranslation(App))

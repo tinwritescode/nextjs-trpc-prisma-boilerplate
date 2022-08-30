@@ -19,20 +19,27 @@ function NavItem({
   active = false,
   leftIcon,
 }: NavItemProps) {
-  const activeBg = 'bg-slate-100'
+  const activeBg = 'bg-green-400'
 
   const LeftIcon = leftIcon ? leftIcon : null
 
   return (
     <li
-      className={classNames('rounded-md hover:bg-slate-100', {
-        [activeBg]: active,
-      })}
+      className={classNames(
+        'animate-in fade-in transition-colors duration-1000',
+        'rounded-md hover:bg-green-400',
+        {
+          [activeBg]: active,
+        }
+      )}
     >
       <Link href={(!onClick && href) || '#'}>
         <a className="block p-4" onClick={onClick}>
           {LeftIcon && (
-            <LeftIcon size="1rem" className="inline-block mb-1 mr-2" />
+            <LeftIcon
+              size="1rem"
+              className="inline-block mb-1 mr-2 animate-in slide-in-from-left duration-500"
+            />
           )}
           {title}
         </a>
