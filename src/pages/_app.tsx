@@ -9,11 +9,12 @@ import { AppRouter } from '~/server/routers/_app'
 import { Layout } from '../components'
 import '../styles/global.css'
 import { Toaster } from 'react-hot-toast'
+import { theme } from '~/components/ui'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <SessionProvider session={pageProps.session}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Layout>
           <EtherProvider>
             <Component {...pageProps} />

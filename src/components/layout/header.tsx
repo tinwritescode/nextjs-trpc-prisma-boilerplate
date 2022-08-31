@@ -1,19 +1,19 @@
 import { Button } from '@chakra-ui/react'
 import classNames from 'classnames'
 import { CgShoppingCart } from 'react-icons/cg'
-import { GrConnect } from 'react-icons/gr'
 import useHydrated from '~/hooks/useHydrated'
 import { useCartStore } from '~/models/cart-store'
 import { useEtherStore } from '~/models/web3-store'
+import { Card } from '../card'
 import { Spinner } from '../spinner'
-import Cloud from './cloud'
+import { ConnectWalletButton } from './header/index'
 
 type Props = {}
 
 function Header({}: Props) {
   const hydrated = useHydrated()
   const { addItem, items } = useCartStore()
-  const { connectToMetaMask, address } = useEtherStore()
+  const isMetaMaskInstalled = useEtherStore().isMetaMaskInstalled()
 
   if (!hydrated) {
     return <Spinner />
@@ -21,15 +21,8 @@ function Header({}: Props) {
 
   return (
     <header>
-      <Cloud />
       <div className="flex justify-end">
-        <Button
-          className={classNames(['px-4 mr-4 mt-2 py-2 bg-rose-300'])}
-          onClick={connectToMetaMask}
-          leftIcon={<GrConnect />}
-        >
-          {address ? address : 'Connect to MetaMask'}
-        </Button>
+        <ConnectWalletButton />
         <Button
           className={classNames(['px-4 mr-4 mt-2 py-2 bg-rose-300'])}
           leftIcon={<CgShoppingCart />}
@@ -43,6 +36,32 @@ function Header({}: Props) {
           Cart ({items.length})
         </Button>
       </div>
+
+      {isMetaMaskInstalled ? (
+        <Card colorScheme="success">
+          <>
+            {/* <Card.Header>You need to install MetaMask</Card.Header> */}
+            <Card.Body>
+              <p>You have MetaMask installed.</p>
+            </Card.Body>
+          </>
+        </Card>
+      ) : (
+        <Card colorScheme="error">
+          <>
+            <Card.Header>
+              <p>You need to install MetaMask</p>
+            </Card.Header>
+            <Card.Body>
+              <p>
+                MetaMask is a browser extension that allows you to interact with
+                the Ethereum blockchain. You can install it from{' '}
+                <a href="https://metamask.io/">metamask.io</a>.
+              </p>
+            </Card.Body>
+          </>
+        </Card>
+      )}
     </header>
   )
 }

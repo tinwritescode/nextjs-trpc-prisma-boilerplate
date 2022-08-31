@@ -1,19 +1,11 @@
-import { Button, Image, Spinner, Text } from '@chakra-ui/react'
-import { createTRPCClient } from '@trpc/client'
-import { useSession } from 'next-auth/react'
+import { Button, Image, Text } from '@chakra-ui/react'
 import React from 'react'
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
-import { AppRouter } from '~/server/routers/_app'
-import { trpc } from '../../utils/trpc'
 import { toast } from 'react-hot-toast'
-import { getBaseUrl } from '../_app'
-
-const client = createTRPCClient<AppRouter>({
-  url: getBaseUrl(),
-})
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+import { Spinner } from '~/components/spinner'
+import { trpc } from '../../utils/trpc'
 
 const Index = () => {
-  const { data: session, status } = useSession()
   const [page, setPage] = React.useState(1)
   const fetchPostList = trpc.useQuery(
     ['motthegioimoi.byCategory', { page, withImage: true, limit: 10 }],
@@ -22,6 +14,13 @@ const Index = () => {
       staleTime: 60 * 1000 * 30,
     }
   )
+
+  // prefetch
+  trpc.useQuery([
+    'motthegioimoi.byCategory',
+    { page: page + 1, withImage: true, limit: 10 },
+  ])
+
   const addToGallery = trpc.useMutation(['user.addImageToGallery'])
 
   return (
@@ -74,7 +73,6 @@ const Index = () => {
       >
         Fetch next page
       </Button>
-      {/* {JSON.stringify(images.data)} */}
     </>
   )
 }

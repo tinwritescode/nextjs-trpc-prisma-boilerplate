@@ -4,12 +4,13 @@ import { devtools } from 'zustand/middleware'
 import { produce } from 'immer'
 
 interface EtherProviderState {
-  web3: any
+  web3: any | null
   provider: ethers.providers.Web3Provider | null
   contract: ethers.Contract | null
   address: any | null
   connectToMetaMask: () => void
   initWeb3: ({ ethereum }: any) => void
+  isMetaMaskInstalled: () => boolean
 }
 
 declare global {
@@ -60,6 +61,7 @@ export const useEtherStore = create<EtherProviderState>()(
           )
         }
       },
+      isMetaMaskInstalled: () => !!get()?.web3,
     }),
     {
       name: 'EtherStore',

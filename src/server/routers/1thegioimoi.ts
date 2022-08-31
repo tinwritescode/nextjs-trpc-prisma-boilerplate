@@ -8,7 +8,7 @@ import { z } from 'zod'
 import { createRouter } from '~/server/createRouter'
 
 const c = new Crawler({
-  maxConnections: 4,
+  maxConnections: 20,
   // rateLimit: 500,
   // callback: (error, res, done) => {
   //   if (error) {
@@ -113,7 +113,7 @@ const getImageFromURL = async (url: string) => {
       uri: url,
       callback(err, res, done) {
         done()
-        console.log('[1thegioimoi] Fetching ' + url)
+        // console.log('[1thegioimoi] Fetching ' + url)
 
         if (err?.message.length > 0) {
           console.log('[1thegioimoi] Error: ' + err.message)
