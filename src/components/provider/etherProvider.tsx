@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useCallback } from 'react'
+import useSWR from 'swr'
 import { useEtherStore } from '~/models/web3-store'
 
 interface EtherProviderProps {
@@ -6,18 +7,16 @@ interface EtherProviderProps {
 }
 
 export const EtherProvider = ({ children }: EtherProviderProps) => {
-  const { initWeb3, connectToMetaMask } = useEtherStore()
+  const { connectToMetaMask } = useEtherStore()
 
-  useEffect(() => {
-    initWeb3({ ethereum: window.ethereum })
-
+  const fetcher = useCallback(() => {
     // if wallet is connected
-    if (typeof window.ethereum !== 'undefined') {
-      if (window?.ethereum.selectedAddress) {
-        connectToMetaMask()
-      }
+    if (window?.ethereum.selectedAddress) {
+      connectToMetaMask()
     }
   }, [])
+
+  useSWR('ethereum-reloader', fetcher)
 
   return <>{children}</>
 }
