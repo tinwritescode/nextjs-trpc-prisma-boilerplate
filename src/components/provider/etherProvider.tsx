@@ -12,8 +12,10 @@ export const EtherProvider = ({ children }: EtherProviderProps) => {
     initWeb3({ ethereum: window.ethereum })
 
     // if wallet is connected
-    if (window.ethereum.selectedAddress) {
-      connectToMetaMask()
+    if (typeof window.ethereum !== 'undefined') {
+      if (window?.ethereum.selectedAddress) {
+        connectToMetaMask()
+      }
     }
   }, [])
 

@@ -27,7 +27,10 @@ export const useEtherStore = create<EtherProviderState>()(
       address: null,
       initWeb3: ({ ethereum }: any) => {
         const web3 = ethereum
+        if (!web3) return
+
         const provider = new ethers.providers.Web3Provider(ethereum)
+        if (!provider) return
 
         set(
           produce((state) => {
