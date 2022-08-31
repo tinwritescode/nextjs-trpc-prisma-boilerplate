@@ -8,19 +8,19 @@ import { z } from 'zod'
 import { createRouter } from '~/server/createRouter'
 
 const c = new Crawler({
-  maxConnections: 10,
-  // This will be called for each crawled page
-  callback: (error, res, done) => {
-    if (error) {
-      console.log(error)
-    } else {
-      const $ = res.$
-      // $ is Cheerio by default
-      //a lean implementation of core jQuery designed specifically for the server
-      console.log($('title').text())
-    }
-    done()
-  },
+  maxConnections: 4,
+  // rateLimit: 500,
+  // callback: (error, res, done) => {
+  //   if (error) {
+  //     console.log(error)
+  //   } else {
+  //     const $ = res.$
+  //     // $ is Cheerio by default
+  //     //a lean implementation of core jQuery designed specifically for the server
+  //     console.log($('title').text())
+  //   }
+  //   done()
+  // },
 })
 
 /**
@@ -64,6 +64,7 @@ export const thegioimoiRouter = createRouter()
           c.queue({
             uri: website,
             async callback(err, res, done) {
+              done()
               const $ = res.$
 
               const postList = $('#posts-container')
@@ -111,7 +112,13 @@ const getImageFromURL = async (url: string) => {
     c.queue({
       uri: url,
       callback(err, res, done) {
+        done()
         console.log('[1thegioimoi] Fetching ' + url)
+
+        if (err?.message.length > 0) {
+          console.log('[1thegioimoi] Error: ' + err.message)
+          resolve([])
+        }
         const $ = res.$
 
         const posts = $('#the-post')
