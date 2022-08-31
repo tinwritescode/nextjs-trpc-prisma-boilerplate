@@ -8,7 +8,7 @@ import { z } from 'zod'
 import { createRouter } from '~/server/createRouter'
 
 const c = new Crawler({
-  maxConnections: 40,
+  maxConnections: 10,
   // This will be called for each crawled page
   callback: (error, res, done) => {
     if (error) {
@@ -72,7 +72,6 @@ export const thegioimoiRouter = createRouter()
                   return $(el).attr('href')
                 })
                 .get()
-                // .splice(0, limit)
                 .filter((val) => !val.includes('/author/'))
                 // remove duplicates
                 .filter((val, i, arr) => arr.indexOf(val) === i)
@@ -112,6 +111,7 @@ const getImageFromURL = async (url: string) => {
     c.queue({
       uri: url,
       callback(err, res, done) {
+        console.log('[1thegioimoi] Fetching ' + url)
         const $ = res.$
 
         const posts = $('#the-post')
