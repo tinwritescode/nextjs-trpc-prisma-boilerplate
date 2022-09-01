@@ -1,11 +1,7 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import { withTRPC } from '@trpc/next'
 import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
 import { AppProps } from 'next/app'
 import superjson from 'superjson'
-import { EtherProvider } from '~/components/provider/etherProvider'
-import { AppRouter } from '~/server/routers/_app'
 import { Layout } from '../components'
 import '../styles/global.css'
 import { Toaster } from 'react-hot-toast'
@@ -47,7 +43,7 @@ export function getBaseUrl() {
 }
 
 export default withTRPC<AppRouter>({
-  config({ ctx }) {
+  config({}) {
     /**
      * If you want to use SSR, you need to use the server's full URL
      * @link https://trpc.io/docs/ssr

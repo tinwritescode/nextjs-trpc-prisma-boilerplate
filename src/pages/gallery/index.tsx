@@ -1,6 +1,6 @@
 import React from 'react'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
-import { Spinner } from '~/components/spinner'
+import { Spinner } from '~/components/common/spinner'
 import { trpc } from '~/utils/trpc'
 import { Image } from '@chakra-ui/react'
 

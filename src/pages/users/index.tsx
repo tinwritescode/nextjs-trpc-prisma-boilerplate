@@ -1,6 +1,4 @@
-import { useSession } from 'next-auth/react'
-import React from 'react'
-import { Spinner } from '~/components/spinner'
+import { Spinner } from '~/components/common/spinner'
 import { trpc } from '~/utils/trpc'
 
 type Props = {}

@@ -15,9 +15,10 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
+import classNames from 'classnames'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import React from 'react'
-import useTrans from '../../hooks/useTrans'
-import Header from './header'
 import {
   CgFacebook,
   CgGoogleTasks,
@@ -30,12 +31,10 @@ import {
   CgToggleOn,
   CgUser,
 } from 'react-icons/cg'
+import useTrans from '../../hooks/useTrans'
+import { Spinner } from '../common/spinner'
+import Header from './header'
 import NavItem, { NavItemProps } from './nav-item'
-import { useSession } from 'next-auth/react'
-import { signIn, signOut } from 'next-auth/react'
-import { Spinner } from '../spinner'
-import classNames from 'classnames'
-import { useRouter } from 'next/router'
 
 type Props = { children: React.ReactNode }
 

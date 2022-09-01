@@ -2,7 +2,7 @@ import { Button, Image, Text } from '@chakra-ui/react'
 import React from 'react'
 import { toast } from 'react-hot-toast'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
-import { Spinner } from '~/components/spinner'
+import { Spinner } from '~/components/common/spinner'
 import { trpc } from '../../utils/trpc'
 
 const Index = () => {
@@ -28,9 +28,9 @@ const Index = () => {
       {(fetchPostList.isLoading && <Spinner />) || (
         <section className="overflow-hidden">
           <ResponsiveMasonry
-            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+          // columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
           >
-            <Masonry columnsCount={3} gutter="10px">
+            <Masonry columnsCount={4} gutter="10px">
               {fetchPostList.data?.map((post) => (
                 <div key={post.url}>
                   <Text>{post.url}</Text>

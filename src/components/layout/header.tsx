@@ -4,8 +4,8 @@ import { CgShoppingCart } from 'react-icons/cg'
 import useHydrated from '~/hooks/useHydrated'
 import { useCartStore } from '~/models/cart-store'
 import { useEtherStore } from '~/models/web3-store'
-import { Card } from '../card'
-import { Spinner } from '../spinner'
+import { Card } from '~/components/common/card'
+import { Spinner } from '../common/spinner'
 import { ConnectWalletButton } from './header/index'
 
 type Props = {}
