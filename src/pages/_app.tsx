@@ -6,6 +6,10 @@ import { Layout } from '../components'
 import '../styles/global.css'
 import { Toaster } from 'react-hot-toast'
 import { theme } from '~/components/ui'
+import { ChakraProvider } from '@chakra-ui/react'
+import { EtherProvider } from '~/components/provider'
+import { AppRouter } from '~/server/routers/_app'
+import { withTRPC } from '@trpc/next'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
