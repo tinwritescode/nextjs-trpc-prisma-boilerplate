@@ -37,7 +37,7 @@ model Account {
   id_token          String?
   session_state     String?
 
-  user  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -65,6 +65,7 @@ model User {
   sessions      Session[]
   logs          Log[]
   galleries     Image[]
+  orders        Order[]
 }
 
 model VerificationToken {
@@ -124,4 +125,20 @@ model Image {
   url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id         String   @id @default(cuid()) @map("_id")
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pair       String
+  type       String
+  entry      Float
+  stoploss   Float
+  takeprofit Float
+  amount     Float
+  leverage   Float
+  status     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

@@ -69,6 +69,11 @@ const NAVIGATION: NavItemProps[] = [
     href: '/gallery',
     leftIcon: CgImage,
   },
+  {
+    title: 'Trade Book',
+    href: '/trade-book',
+    leftIcon: CgGoogleTasks,
+  },
 ]
 
 function NavbarFooter({ onOpen }: { onOpen: () => void }) {

@@ -11,6 +11,8 @@ import { EtherProvider } from '~/components/provider'
 import { AppRouter } from '~/server/routers/_app'
 import { withTRPC } from '@trpc/next'
 
+import 'react-datepicker/dist/react-datepicker.css'
+
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <SessionProvider session={pageProps.session}>

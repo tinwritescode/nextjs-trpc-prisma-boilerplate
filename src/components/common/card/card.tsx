@@ -32,7 +32,7 @@ type HeaderProps = {
   children: JSX.Element
 }
 Card.Header = function CardHeader({ children }: HeaderProps) {
-  return <p className="text-xl font-bold">{children}</p>
+  return <div className="text-xl font-bold">{children}</div>
 }
 
 type BodyProps = {
