@@ -292,8 +292,6 @@ function Index({}: Props) {
       </Flex>
       <FloatingOrderList data={getMyTrades.data} />
       <CreateNewModal isOpen={isModalOpen} onClose={onModalClose} />
-
-      {JSON.stringify(getMyTrades?.data)}
     </>
   )
 }
