@@ -64,8 +64,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   logs          Log[]
-  galleries     Image[]
   orders        Order[]
+  Image         Image[]
 }
 
 model VerificationToken {
@@ -127,18 +127,49 @@ model Image {
   updatedAt DateTime @updatedAt
 }
 
+enum OrderType {
+  LONG
+  SHORT
+}
+
+enum OrderStatus {
+  CANCELED
+  PENDING
+  RUNNING
+  WIN
+  LOSE
+}
+
+enum TradeType {
+  CROSS
+  ISOLATED
+}
+
 model Order {
-  id         String   @id @default(cuid()) @map("_id")
+  id         String       @id @default(cuid()) @map("_id")
   userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   pair       String
-  type       String
+  type       OrderType
   entry      Float
   stoploss   Float
   takeprofit Float
   amount     Float
   leverage   Float
-  status     String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  status     OrderStatus
+  notes      String?
+  tradeType  TradeType
+  tradeDate  DateTime
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  images     OrderImage[]
+}
+
+model OrderImage {
+  id        String   @id @default(cuid()) @map("_id")
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Order     Order?   @relation(fields: [orderId], references: [id])
+  orderId   String?
 }

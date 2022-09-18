@@ -18,7 +18,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body>
-          <Cloud />
+          {/* <Cloud /> */}
           <Main />
           <NextScript />
         </body>

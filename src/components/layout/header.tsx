@@ -37,7 +37,7 @@ function Header({}: Props) {
         </Button>
       </div>
 
-      {isMetaMaskInstalled ? (
+      {window?.ethereum ? (
         <Card colorScheme="success">
           <>
             {/* <Card.Header>You need to install MetaMask</Card.Header> */}

@@ -5,6 +5,8 @@ import { createRouter } from '../createRouter'
 import superjson from 'superjson'
 import { thegioimoiRouter } from './1thegioimoi'
 import { userRouter } from './user'
+import { tradeBookRouter } from './tradebook'
+import { uploadcareRouter } from './uploadcare'
 
 /**
  * Create your application's root router
@@ -28,5 +30,7 @@ export const appRouter = createRouter()
    */
   .merge('motthegioimoi.', thegioimoiRouter)
   .merge('user.', userRouter)
+  .merge('tradebook.', tradeBookRouter)
+  .merge('uploadcare', uploadcareRouter)
 
 export type AppRouter = typeof appRouter

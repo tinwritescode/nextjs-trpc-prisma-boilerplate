@@ -10,3 +10,18 @@
     transform: translate3d(120vw, 0, 0);
   }
 }
+
+.uploadcare--widget__button_type_open {
+  background: #157cfc !important;
+  color: #fff !important;
+  width: 100%;
+}
+.uploadcare--widget__button_type_remove {
+  background: #c3c3c3!important;
+  color: #fff!important;
+}
+.uploadcare--button_primary {
+  background: #157cfc!important;
+  border-color: #157cfc!important;
+  color: #fff;
+}
