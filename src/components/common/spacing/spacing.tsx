@@ -3,7 +3,7 @@ const VerticalSpacing = ({ size = 0 }) => {
 }
 
 const HorizontalSpacing = ({ size = spacing[0] }) => {
-  return <div style={{ width: size }} />
+  return <div style={{ width: size * 4 }} />
 }
 
 const spacing = [2, 4, 8, 16, 20, 24, 28, 32]

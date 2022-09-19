@@ -73,7 +73,7 @@ const CreateNewBody = ({ onClose }: CreateNewBodyProps) => {
   const createOrder = trpc.useMutation('tradebook.createOrder')
   const [groupId, setGroupId] = useState('')
   const fetchImage = trpc.useQuery([
-    'uploadcaregetImageByGroup',
+    'uploadcare.getImageByGroup',
     { group: groupId },
   ])
   const onSubmit = async (values: typeof initialValues) => {
@@ -125,8 +125,8 @@ const CreateNewBody = ({ onClose }: CreateNewBodyProps) => {
       >
         {({ isSubmitting, errors, values }) => (
           <Form>
-            {JSON.stringify(errors)}
-            {JSON.stringify(values)}
+            {/* {JSON.stringify(errors)}
+            {JSON.stringify(values)} */}
             <div className="grid grid-cols-2 gap-2 bg-white">
               <div className="col-span-2">
                 <Field name="pair">
