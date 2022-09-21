@@ -7,22 +7,25 @@ import '../styles/global.css'
 import { Toaster } from 'react-hot-toast'
 import { theme } from '~/components/ui'
 import { ChakraProvider } from '@chakra-ui/react'
-import { EtherProvider } from '~/components/provider'
 import { AppRouter } from '~/server/routers/_app'
 import { withTRPC } from '@trpc/next'
 
-import 'react-datepicker/dist/react-datepicker.css'
+interface AppPropsWithAuth extends AppProps {
+  session: any
+}
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppPropsWithAuth) => {
   return (
-    <SessionProvider session={pageProps.session}>
+    <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
         <Layout>
-          <EtherProvider>
-            <Component {...pageProps} />
-          </EtherProvider>
+          <Component {...pageProps} />
         </Layout>
       </ChakraProvider>
+
       <Toaster />
     </SessionProvider>
   )
@@ -67,4 +70,4 @@ export default withTRPC<AppRouter>({
    * @link https://trpc.io/docs/ssr
    */
   ssr: false,
-})(appWithTranslation(App))
+})(appWithTranslation(App as any))
