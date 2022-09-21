@@ -75,7 +75,7 @@
     "@types/nodemailer": "^6.4.6",
     "@types/react-datepicker": "^4.4.2",
     "@types/react-infinite-scroller": "^1.2.3",
-    "autoprefixer": "^10.4.11",
+    "autoprefixer": "^10.4.12",
     "env-cmd": "^10.1.0",
     "eslint": "^8.23.1",
     "eslint-config-next": "^12.3.1",
