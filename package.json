@@ -40,7 +40,7 @@
     "classnames": "^2.3.2",
     "crawler": "^1.3.0",
     "formik": "^2.2.9",
-    "framer-motion": "^7.3.6",
+    "framer-motion": "^7.10.0",
     "headlessui": "^0.0.0",
     "immer": "^9.0.15",
     "jsonwebtoken": "^8.5.1",
